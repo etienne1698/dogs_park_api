@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
-import * as bcrypt from 'bcrypt';
-import data from '../../data.json' with { type: "json" }
+import * as bcrypt from "bcrypt";
+import usersService from "../users/users.service.js";
 
 const PRIVATE_KEY = Buffer.from(process.env.PRIVATE_KEY_B64, "base64").toString(
   "utf-8"
 );
-const PUBLIC_KEY = Buffer.from(process.env.PUBLIC_KEY_B64, 'base64').toString('utf-8');
+const PUBLIC_KEY = Buffer.from(process.env.PUBLIC_KEY_B64, "base64").toString(
+  "utf-8"
+);
 
 function validateJwt(token) {
   try {
@@ -37,19 +39,27 @@ function formatUser(user) {
 }
 
 async function login(email, password) {
-    let user = data.users.find((user) => user.email === email);
-    if (!user || !(await validatePassword(password, user.password))) {
-        return null;
-    }
-    return {
-      user: formatUser(user),
-      token: await getToken(user),
-    };
+  let user = await usersService.findByEmail(email);
+  if (!user || !(await validatePassword(password, user.password))) {
+    return null;
   }
+  return {
+    user: formatUser(user),
+    token: await getToken(user),
+  };
+}
+
+async function register(data) {
+  const password = await bcrypt.hash(data.password, 10);
+  const user = await usersService.create({ ...data, password });
+  delete user.password;
+  return user;
+}
 
 export default {
   validateJwt,
   getToken,
   validatePassword,
   login,
+  register,
 };

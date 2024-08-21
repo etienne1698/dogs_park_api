@@ -14,4 +14,13 @@ export default function AuthRoutes(app) {
       res.status(500).send({ message: "Internal Server Error" });
     }
   });
+  app.post("/auth/register", async (req, res) => {
+    try {
+      let result = await authService.register(req.body);
+      res.status(201).json(result);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Internal Server Error" });
+    }
+  });
 }
