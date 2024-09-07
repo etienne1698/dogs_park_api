@@ -1,6 +1,6 @@
 import express from 'express'
-import AuthRoutes from './api/auth/auth.routes.js'
-import SearchRoutes from './api/search/search.routes.js';
+import AuthRoutes from './modules/auth/auth.routes.js'
+import SearchRoutes from './modules/search/search.routes.js';
 
 const app = express()
 

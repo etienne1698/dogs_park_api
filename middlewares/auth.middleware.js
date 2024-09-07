@@ -1,4 +1,4 @@
-import authService from "../api/auth/auth.service.js";
+import authService from "../modules/auth/auth.service.js";
 
 export default function authMiddleware(req, res, next) {
   try {
