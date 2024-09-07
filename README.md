@@ -21,3 +21,17 @@ npm i
 ```
 npm run dev
 ```
+
+# Doc API
+
+- créer un compte :
+    - URL: ${API_URL}/auth/register
+    - Method: POST
+    - body {email, password, name}
+- login :
+    - URL: ${API_URL}/auth/login
+    - Method: POST
+    - body {email, password}
+- chercher un park 
+    - URL: ${API_URL}/search?q=${maRecherche}
+    - Method: GET
